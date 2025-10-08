@@ -1,4 +1,6 @@
 <script>
+	import RabbitForm from '$lib/components/RabbitForm.svelte';
+
 	// unsere Imports:
 	import Icon from '@iconify/svelte';
 
@@ -6,7 +8,7 @@
 	let rabbits = $state([]);
 
 	// unsere Methoden zur Datenmanipulation:
-	async function listRabbits() {
+	export async function listRabbits() {
 		const response = await fetch('http://localhost:7070/rabbits');
 		console.log('response: ', response);
 		rabbits = await response.json();
@@ -48,6 +50,8 @@
 <!-- unser Template / HTML-Teil der Seite bzw. der Komponente -->
 <h1 class="text-3xl">Our Rabbits</h1>
 
+<a href="/new-rabbit">New Rabbit</a>
+
 <div class="grid w-[200px] grid-cols-[32px_1fr_32px_32px] items-end">
 	<div>ID</div>
 	<div>Name</div>
@@ -67,3 +71,5 @@
 		</div>
 	{/each}
 </div>
+
+<RabbitForm></RabbitForm>

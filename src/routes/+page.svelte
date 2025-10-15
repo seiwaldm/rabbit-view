@@ -1,6 +1,6 @@
 <script>
 	import RabbitForm from '$lib/components/RabbitForm.svelte';
-
+	import { serverAddress } from '$lib/store.js';
 	// unsere Imports:
 	import Icon from '@iconify/svelte';
 
@@ -8,14 +8,14 @@
 	let rabbits = $state([]);
 
 	// unsere Methoden zur Datenmanipulation:
-	export async function listRabbits() {
-		const response = await fetch('http://localhost:7070/rabbits');
+	async function listRabbits() {
+		const response = await fetch(`http://${serverAddress}:7070/rabbits`);
 		console.log('response: ', response);
 		rabbits = await response.json();
 	}
 
 	async function deleteRabbit(id) {
-		const response = await fetch('http://localhost:7070/rabbits/' + id, {
+		const response = await fetch('http://' + serverAddress + ':7070/rabbits/' + id, {
 			method: 'DELETE'
 		});
 		listRabbits();
@@ -27,7 +27,7 @@
 			name: newName
 		};
 		try {
-			const response = await fetch('http://localhost:7070/rabbits/' + id, {
+			const response = await fetch(`http://${serverAddress}:7070/rabbits/` + id, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json'

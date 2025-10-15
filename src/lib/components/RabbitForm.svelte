@@ -1,8 +1,9 @@
 <script>
-	import listRabbits from '../../routes/+page.svelte';
+	import { serverAddress } from '$lib/store';
+
 	let name = $state('');
 	async function addRabbit() {
-		const response = await fetch('http://localhost:7070/rabbits', {
+		const response = await fetch(`http://${serverAddress}:7070/rabbits`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -11,7 +12,7 @@
 				name: name
 			})
 		});
-		listRabbits();
+		name = '';
 	}
 </script>
 

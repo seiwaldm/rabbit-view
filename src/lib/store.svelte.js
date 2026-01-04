@@ -1,14 +1,16 @@
 import PocketBase from 'pocketbase';
 
 export const serverAddress = '10.20.227.50';
-const pb = new PocketBase('http://127.0.0.1:8090');
+export const pb = new PocketBase('http://127.0.0.1:8090');
 
 // export {serverAddress}; -> alternative Schreibweise, wenn kein export direkt bei der Variable!
 
 export let store = $state({
 	rabbits: [],
 	listRabbits: async () => {
-		store.rabbits = await pb.collection('rabbits').getFullList();
+		store.rabbits = await pb.collection('rabbits').getFullList({
+			expand: "rabbithole"
+		});
 	},
 
 	editRabbit: async (id, newName) => {
@@ -29,8 +31,9 @@ export let store = $state({
 		await pb.collection('rabbits').delete(id);
 		store.listRabbits();
 	},
-	addRabbit: async (name) => {
-		const response = await pb.collection('rabbits').create({ name });
+	addRabbit: async (rabbit) => {
+		const response = await pb.collection('rabbits').create(rabbit);
+		store.listRabbits();
 		console.log(response);
 	}
 });

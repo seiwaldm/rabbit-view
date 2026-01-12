@@ -33,6 +33,5 @@ export let store = $state({
 		const response = await pb.collection('rabbits').create(rabbit);
 		store.listRabbits();
 		console.log(response);
-	},
-	theme: 'halloween'
+	}
 });

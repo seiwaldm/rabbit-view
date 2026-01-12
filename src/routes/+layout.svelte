@@ -18,7 +18,7 @@
 	// unser "Konstruktor" (lifecycle hook) - läuft jedesmal, wenn die Seite bzw. die Komponente geladen wird:
 	$effect(() => {
 		store.listRabbits();
-		theme = localStorage.getItem('theme');
+		if (localStorage.getItem('theme')) theme = localStorage.getItem('theme');
 		$inspect('🐰: ', store.rabbits);
 	});
 </script>
@@ -40,7 +40,7 @@
 			<option value="halloween" onclick={saveTheme}>halloween</option>
 		</select>
 	</nav>
-	<main class="flex flex-col items-center justify-center">
+	<main class="flex min-h-screen flex-col items-center justify-center">
 		{@render children?.()}
 	</main>
 </div>

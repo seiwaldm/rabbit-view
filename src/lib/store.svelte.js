@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import PocketBase from 'pocketbase';
 
 export const serverAddress = '10.20.227.50';
@@ -9,16 +10,13 @@ export let store = $state({
 	rabbits: [],
 	listRabbits: async () => {
 		store.rabbits = await pb.collection('rabbits').getFullList({
-			expand: "rabbithole"
+			expand: 'rabbithole'
 		});
 	},
 
-	editRabbit: async (id, newName) => {
-		let editedRabbit = {
-			name: newName
-		};
+	editRabbit: async (id, rabbit) => {
 		try {
-			const record = await pb.collection('rabbits').update(id, editedRabbit);
+			const record = await pb.collection('rabbits').update(id, rabbit);
 			if (!response.ok) {
 				alert(await response.text());
 			}
@@ -35,5 +33,6 @@ export let store = $state({
 		const response = await pb.collection('rabbits').create(rabbit);
 		store.listRabbits();
 		console.log(response);
-	}
+	},
+	theme: 'halloween'
 });

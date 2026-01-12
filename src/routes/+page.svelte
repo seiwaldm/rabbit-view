@@ -14,8 +14,6 @@
 		} else {
 		}
 	}
-
-	
 </script>
 
 <!-- unser Template / HTML-Teil der Seite bzw. der Komponente -->
@@ -36,15 +34,11 @@
 		{:else}
 			<div></div>
 		{/if}
-		<div class="pr-3">
-			<button
-				onclick={() => {
-					currentRabbitId = rabbit.id;
-					editingModal.showModal();
-				}}
-				class="cursor-pointer"><Icon icon="carbon:edit" width="16" height="16" /></button
-			>
-		</div>
+		<a href={'/' + rabbit.id}>
+			<div class="pr-3">
+				<button class="cursor-pointer"><Icon icon="carbon:edit" width="16" height="16" /></button>
+			</div>
+		</a>
 		<div>
 			<button onclick={() => store.deleteRabbit(rabbit.id)} class="cursor-pointer text-red-500"
 				>x</button

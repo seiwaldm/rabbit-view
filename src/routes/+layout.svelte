@@ -8,7 +8,7 @@
 
 	let theme = $state('halloween');
 
-	// ALTERNATIVE APPROACH - DISCUSS TOGETHER WITH CSR/SSR
+	// ALTERNATIVE APPROACH -> DISCUSS TOGETHER WITH CSR/SSR
 	// let theme = $state(browser ? localStorage.getItem('theme') : 'halloween');
 
 	function saveTheme() {

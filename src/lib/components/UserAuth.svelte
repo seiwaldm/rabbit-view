@@ -1,10 +1,13 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { pb } from '$lib/store.svelte';
 
 	let email = $state('');
 	let username = $state('');
 	let password1 = $state('');
 	let password2 = $state('');
+
+	let registration = $state(false);
 
 	async function registerUser() {
 		const data = {
@@ -15,13 +18,18 @@
 			passwordConfirm: password2
 		};
 		const record = await pb.collection('users').create(data);
+		goto('/auth');
+	}
+	async function loginUser() {
+		const authData = await pb.collection('users').authWithPassword(email, password1);
+		goto('/');
 	}
 </script>
 
 <div class="card max-w-96 bg-base-100 shadow-sm">
 	<div class="card-body">
-		<form action="">
-			<h2 class="card-title">Register</h2>
+		<form action="" class="flex flex-col">
+			<h2 class="card-title">{registration ? 'Register' : 'Login'}</h2>
 
 			<fieldset class="fieldset">
 				<legend class="fieldset-legend">Mail</legend>
@@ -32,15 +40,18 @@
 					bind:value={email}
 				/>
 			</fieldset>
-			<fieldset class="fieldset">
-				<legend class="fieldset-legend">Username</legend>
-				<input
-					type="text"
-					class="input"
-					placeholder="How should we call you?"
-					bind:value={username}
-				/>
-			</fieldset>
+
+			{#if registration}
+				<fieldset class="fieldset">
+					<legend class="fieldset-legend">Username</legend>
+					<input
+						type="text"
+						class="input"
+						placeholder="How should we call you?"
+						bind:value={username}
+					/>
+				</fieldset>
+			{/if}
 			<fieldset class="fieldset">
 				<legend class="fieldset-legend">Password</legend>
 				<input
@@ -49,10 +60,24 @@
 					placeholder="Choose a safe one!"
 					bind:value={password1}
 				/>
-				<input type="password" class="input" placeholder="Please repeat!" bind:value={password2} />
+				{#if registration}
+					<input
+						type="password"
+						class="input"
+						placeholder="Please repeat!"
+						bind:value={password2}
+					/>
+				{/if}
 			</fieldset>
-			<div class="card-actions justify-end">
-				<button class="btn btn-primary" onclick={registerUser}>Register</button>
+			<div class="mt-4 card-actions flex flex-col items-end justify-end">
+				{#if registration}
+					<button class="btn btn-primary" onclick={registerUser}>Register</button>
+				{:else}
+					<button class="btn btn-primary" onclick={loginUser}>Login</button>
+					<button onclick={() => (registration = true)} class="cursor-pointer text-primary">
+						No Account? Register instead...
+					</button>
+				{/if}
 			</div>
 		</form>
 	</div>

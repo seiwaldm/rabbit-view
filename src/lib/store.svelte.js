@@ -1,14 +1,13 @@
 import { browser } from '$app/environment';
+import { supabase } from '$lib/supabaseClient';
 import PocketBase from 'pocketbase';
-
-export const serverAddress = '10.20.227.50';
 export const pb = new PocketBase('http://127.0.0.1:8090');
-
-// export {serverAddress}; -> alternative Schreibweise, wenn kein export direkt bei der Variable!
 
 export let store = $state({
 	rabbits: [],
 	listRabbits: async () => {
+		let { data: rabbits, error } = await supabase.from('rabbits').select('*,rabbitholes(name)');
+		console.log(rabbits);
 		store.rabbits = await pb.collection('rabbits').getFullList({
 			expand: 'rabbithole'
 		});

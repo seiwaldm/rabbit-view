@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { serverAddress, store, pb } from '$lib/store.svelte.js';
+	import { store, pb } from '$lib/store.svelte.js';
 
 	let { rabbitId = '' } = $props();
 

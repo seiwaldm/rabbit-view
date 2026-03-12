@@ -1,7 +1,7 @@
 <script>
 	import RabbitForm from '$lib/components/RabbitForm.svelte';
 	import UserAuth from '$lib/components/UserAuth.svelte';
-	import { pb, serverAddress, store } from '$lib/store.svelte.js';
+	import { store } from '$lib/store.svelte.js';
 	import Icon from '@iconify/svelte';
 </script>
 

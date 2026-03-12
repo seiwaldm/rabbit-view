@@ -8,9 +8,7 @@ export let store = $state({
 	listRabbits: async () => {
 		let { data: rabbits, error } = await supabase.from('rabbits').select('*,rabbitholes(name)');
 		console.log(rabbits);
-		store.rabbits = await pb.collection('rabbits').getFullList({
-			expand: 'rabbithole'
-		});
+		store.rabbits = rabbits;
 	},
 
 	editRabbit: async (id, rabbit) => {
@@ -25,7 +23,8 @@ export let store = $state({
 		store.listRabbits();
 	},
 	deleteRabbit: async function (id) {
-		await pb.collection('rabbits').delete(id);
+		const { error } = await supabase.from('rabbits').delete().eq('id', id);
+		// await pb.collection('rabbits').delete(id);
 		store.listRabbits();
 	},
 	addRabbit: async (rabbit) => {

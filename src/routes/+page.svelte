@@ -18,8 +18,8 @@
 	{#each store.rabbits as rabbit, index}
 		<div class="pr-3 text-right">{index + 1}</div>
 		<div class="pr-3">{rabbit.name}</div>
-		{#if rabbit.expand.rabbithole}
-			<div class="pr-3">{rabbit.expand.rabbithole.name}</div>
+		{#if rabbit.rabbitholes}
+			<div class="pr-3">{rabbit.rabbitholes.name}</div>
 		{:else}
 			<div></div>
 		{/if}

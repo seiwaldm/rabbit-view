@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { store, pb } from '$lib/store.svelte.js';
+	import { store } from '$lib/store.svelte.js';
+	import { supabase } from '$lib/supabaseClient';
 
 	let { rabbitId = '' } = $props();
 
@@ -24,12 +25,15 @@
 	}
 
 	$effect(async () => {
-		rabbitholes = await pb.collection('rabbitholes').getFullList();
-		if (rabbitId) {
-			rabbit = Object.assign(
-				{},
-				store.rabbits.find((rabbit) => rabbitId === rabbit.id)
-			);
+		const { data, error } = await supabase.from('rabbitholes').select('*');
+		if (data) {
+			rabbitholes = data;
+		}
+		if (rabbitId && store.rabbits.length > 0) {
+			const foundRabbit = store.rabbits.find((r) => rabbitId === r.id);
+			if (foundRabbit) {
+				rabbit = Object.assign({}, foundRabbit);
+			}
 		}
 	});
 </script>

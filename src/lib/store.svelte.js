@@ -12,13 +12,9 @@ export let store = $state({
 	},
 
 	editRabbit: async (id, rabbit) => {
-		try {
-			const record = await pb.collection('rabbits').update(id, rabbit);
-			if (!response.ok) {
-				alert(await response.text());
-			}
-		} catch (error) {
-			console.log('FEHLER');
+		const { error } = await supabase.from('rabbits').update(rabbit).eq('id', id);
+		if (error) {
+			console.error('Error updating rabbit:', error);
 		}
 		store.listRabbits();
 	},
@@ -28,8 +24,10 @@ export let store = $state({
 		store.listRabbits();
 	},
 	addRabbit: async (rabbit) => {
-		const response = await pb.collection('rabbits').create(rabbit);
+		const { data, error } = await supabase.from('rabbits').insert(rabbit).select();
+		if (error) {
+			console.error('Error adding rabbit:', error);
+		}
 		store.listRabbits();
-		console.log(response);
 	}
 });
